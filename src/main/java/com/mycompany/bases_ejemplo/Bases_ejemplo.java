@@ -54,21 +54,40 @@ public class Bases_ejemplo {
     
     }
     
+    public void modificar(int carnet, String nombre, int numero, int estado){
+    
+    String sql = "update alumnos set nombre='" + nombre + "', telefono='" + numero + "', estado='" + estado + "' where carnet ='" + carnet + "'";
+        try {
+            con = conectar.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    
+    
+    }
+    
+    public void eliminar(int id){
+        String sql = "delete from alumnos where carnet = ?";
+        try {
+            
+            con = conectar.Conectar();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    
+    
+    }
+    
+    
+    
     
     public static void main(String[] args) {
-        Bases_ejemplo bj = new Bases_ejemplo();
-        Scanner sp = new Scanner(System.in);
-        System.out.println("Ingresa tu codigo");
-        int codigo = sp.nextInt();
-        System.out.println("******");
-        System.out.println("Ingresa tu nombre");
-        String nombre = sp.nextLine();
-        
-        System.out.println("Ingresa tu telefono");
-        int telefono = sp.nextInt();
-        System.out.println("ingresa tu estado");
-        int estado = sp.nextInt();
-        bj.crear(codigo, nombre, telefono, estado);
+        Bases_ejemplo bj = new Bases_ejemplo();        
+        bj.eliminar(88888);
         bj.listar();
     }
    
