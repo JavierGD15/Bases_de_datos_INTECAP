@@ -11,6 +11,7 @@ public class Bases_ejemplo {
     ResultSet rs;
     Connection con;
     Conexion conectar = new Conexion();
+    Object datos[][];
 
     public void menu() {
         while (true) {
@@ -57,25 +58,41 @@ public class Bases_ejemplo {
 
     }
 
-    public void listar() {
+    public Object[][] listar() {
 
         String instruccion = "select * from alumnos";
-
+        
         try {
+            int x = 0;
             con = conectar.Conectar();
             ps = con.prepareStatement(instruccion);
             rs = ps.executeQuery();
+            
 
             while (rs.next()) {
-                System.out.println(rs.getInt(1));
-                System.out.println(rs.getString(2));
-                System.out.println(rs.getInt(3));
-                System.out.println(rs.getInt(4));
-                System.out.println("---------------");
+               x++;
+            }
+            
+             datos = new Object[x][4];
+            
+            con = conectar.Conectar();
+            ps = con.prepareStatement(instruccion);
+            rs = ps.executeQuery();
+            x =0;
+
+            while (rs.next()) {
+                datos[x][0]= rs.getInt(1);
+                datos[x][1] = rs.getString(2);
+                datos[x][2] = rs.getInt(3);
+                datos[x][3] = rs.getInt(4);
+               x++;
             }
 
         } catch (Exception e) {
+            System.out.println("fallo");
         }
+        
+        return datos;
 
     }
 
