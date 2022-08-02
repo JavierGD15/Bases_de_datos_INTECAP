@@ -33,6 +33,7 @@ public class Tabla extends JFrame {
         sp.setLocation(25, 50);
         sp.setVisible(true);
         p1.add(sp);
+        String fecha = "2020-01-15";
     
     
     }

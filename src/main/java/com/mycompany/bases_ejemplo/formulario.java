@@ -4,6 +4,8 @@ package com.mycompany.bases_ejemplo;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.JButton;
 
 import javax.swing.JFrame;
@@ -29,7 +31,7 @@ public class formulario {
         p1.setLayout(null);
         f.add(p1);
         
-        JLabel l1 = new JLabel("Carnet:");
+        JLabel l1 = new JLabel("Codigo:");
         l1.setBounds(50, 50, 100, 25);
         p1.add(l1);
         
@@ -45,7 +47,7 @@ public class formulario {
         t2.setBounds(150, 125, 100, 25);
         p1.add(t2);
         
-        JLabel l3 = new JLabel("Telefono:");
+        JLabel l3 = new JLabel("Lugar:");
         l3.setBounds(50, 200, 100, 25);
         p1.add(l3);
         
@@ -53,13 +55,8 @@ public class formulario {
         t3.setBounds(150, 200, 100, 25);
         p1.add(t3);
         
-        JLabel l4 = new JLabel("Estado:");
-        l4.setBounds(50, 275, 100, 25);
-        p1.add(l4);
-        
-        JPasswordField t4 = new JPasswordField();
-        t4.setBounds(150, 275, 100, 25);
-        p1.add(t4);
+        Calendar calendar = new GregorianCalendar();
+        String date =  "" +calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH)+1)  + "-" + calendar.get(Calendar.DAY_OF_MONTH);
         
         JButton b1 = new JButton("Guardar");
         b1.setBounds(125, 325, 100, 25);
@@ -69,7 +66,7 @@ public class formulario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Bases_ejemplo base = new Bases_ejemplo();
-                base.crear(Integer.parseInt(t1.getText()), t2.getText(), Integer.parseInt(t3.getText()), Integer.parseInt(t4.getText()));
+                base.crear(Integer.parseInt(t1.getText()), t2.getText(), t3.getText(), date);
             }
         };
 

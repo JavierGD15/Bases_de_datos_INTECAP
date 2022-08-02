@@ -39,7 +39,7 @@ public class Bases_ejemplo {
                     System.out.println("Ingrese su nombre");
                     String nombre = sc.nextLine();
                     
-                    crear(carnet, nombre, 0, 0);
+                    
                     break;
                 case 3:
                     int id = sp.nextInt();
@@ -96,16 +96,34 @@ public class Bases_ejemplo {
 
     }
 
-    public void crear(int carnet, String nombre, int numero, int id) {
-        String sql = "insert into alumnos(carnet,nombre,telefono,estado) values (?,?,?,?)";
+    public void filtro(int id){
+    
+    String sql = "select * from alumnos where carnet="+id;
+        try {
+            con = conectar.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                System.out.println(rs.getString(2));
+            }
+            
+        } catch (Exception e) {
+           
+        }
+    
+    }
+    
+    public void crear(int codigo, String nombre, String lugar, String fecha) {
+        String sql = "insert into productos(codigo,nombre,lugar,fecha) values (?,?,?,?)";
 
         try {
             con = conectar.Conectar();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, carnet);
+            ps.setInt(1, codigo);
             ps.setString(2, nombre);
-            ps.setInt(3, numero);
-            ps.setInt(4, id);
+            ps.setString(3, lugar);
+            ps.setString(4, fecha);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -141,7 +159,7 @@ public class Bases_ejemplo {
 
     public static void main(String[] args) {
         Bases_ejemplo bj = new Bases_ejemplo();
-        bj.menu();
+        bj.filtro(201800555);
     }
 
 }
