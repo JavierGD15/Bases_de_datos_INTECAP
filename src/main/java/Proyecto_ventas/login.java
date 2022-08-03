@@ -55,7 +55,8 @@ public class login extends JFrame{
                 
                 switch (respuesta) {
                     case 1:
-                        JOptionPane.showMessageDialog(null, "Es admin");
+                        administrador ad = new administrador();
+                        ad.ejecutar();
                         break;
                     case 0:
                         JOptionPane.showMessageDialog(null, "es vendedor");
