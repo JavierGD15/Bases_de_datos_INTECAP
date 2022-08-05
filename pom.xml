@@ -16,6 +16,21 @@
             <artifactId>ide_SQL</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>Gson</groupId>
+            <artifactId>gson_jar</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>Json-simple</groupId>
+            <artifactId>Json_simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>pdf_itex</groupId>
+            <artifactId>itexpdf</artifactId>
+            <version>5.4.0</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
