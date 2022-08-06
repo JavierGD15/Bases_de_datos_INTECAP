@@ -7,6 +7,7 @@ public class Tabla extends JFrame {
 
     JTable table = new JTable();
     JPanel p1 = new JPanel();
+    
     JScrollPane sp = new JScrollPane();
 
     public void inicio() {
