@@ -5,9 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 
-
-
-
 public class Conexion {
     Connection con;
     
@@ -27,10 +24,7 @@ public class Conexion {
         
     }
     
-    public static void main(String[] args) {
-        Conexion con = new Conexion();
-        System.out.println(con.Conectar());
-    }
+    
     
 }
 

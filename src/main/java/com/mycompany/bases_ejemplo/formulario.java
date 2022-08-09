@@ -3,8 +3,15 @@ package com.mycompany.bases_ejemplo;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 
 import javax.swing.JFrame;
@@ -27,7 +34,33 @@ public class formulario {
     JTable table = new JTable();
     JScrollPane sp = new JScrollPane();
 
-    public void form() {
+    public void save() {
+
+        try {
+            ObjectOutputStream tabla = new ObjectOutputStream(new FileOutputStream("registros.dat"));
+            tabla.writeObject(filas);
+            tabla.close();
+        } catch (IOException s) {
+        }
+
+    }
+
+    public void load() throws ClassNotFoundException {
+
+        try {
+
+            ObjectInputStream recuperar = new ObjectInputStream(new FileInputStream("registros.dat"));
+                
+            filas = (Object[][]) recuperar.readObject();
+            recuperar.close();
+
+        } catch (IOException e) {
+        }
+
+    }
+
+    public void form() throws ClassNotFoundException {
+        load();
         f.setTitle("Ejemplo");
         f.setDefaultCloseOperation(EXIT_ON_CLOSE);
         f.setLocationRelativeTo(null);
@@ -72,13 +105,18 @@ public class formulario {
         ActionListener guardar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!(t1.getText().equals("")) && !(t2.getText().equals("")) && !(t3.getText().equals(""))) {
-                    agregar(Integer.parseInt(t1.getText()), t2.getText(), t3.getText());
+                if (!(t1.getText().equals("")) && !(t2.getText().equals("")) ) {
+                    try {
+                        agregar(Integer.parseInt(t1.getText()), t2.getText(), t3.getText());
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(formulario.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     t1.setText(null);
                     t2.setText(null);
                     t3.setText(null);
-                }else{                
-                    JOptionPane.showMessageDialog(null, "Completa los datos");                
+                } else {
+                    JOptionPane.showMessageDialog(null, "Completa los datos");
                 }
             }
         };
@@ -87,10 +125,10 @@ public class formulario {
 
     }
 
-    public void tabla() {
+    public void tabla() throws ClassNotFoundException {
 
         String[] columnas = {"Codigo", "nombre", "Lugar"};
-
+        load();
         table = new JTable(filas, columnas);
         sp = new JScrollPane(table);
         sp.setSize(400, 250);
@@ -100,14 +138,17 @@ public class formulario {
 
     }
 
-    private void agregar(int codigo, String nombre, String lugar) {
-        if (x == 50) {
-            System.out.println("Ya no se permiten mas registros");
-        } else {
-            filas[x][0] = codigo;
-            filas[x][1] = nombre;
-            filas[x][2] = lugar;
-            x++;
+    private void agregar(int codigo, String nombre, String lugar) throws ClassNotFoundException {
+
+        for (int i = 0; i < filas.length; i++) {
+            if (filas[i][0] == null) {
+                filas[i][0] = codigo;
+                filas[i][1] = nombre;
+                filas[i][2] = lugar;
+                break;
+            }
+
+            save();
             sp.setVisible(false);
             tabla();
 
@@ -115,7 +156,7 @@ public class formulario {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         formulario f = new formulario();
         f.form();
         f.tabla();

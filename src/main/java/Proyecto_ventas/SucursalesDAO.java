@@ -101,22 +101,21 @@ public class SucursalesDAO {
             con = conectar.Conectar();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            while (rs.next()) {                
-                 documento.add(new Paragraph("Código: "+rs.getInt(1)));
-                 documento.add(new Paragraph("Nombre: "+rs.getString(2)));
-                 documento.add(new Paragraph("Dirección: "+rs.getString(3)));
-                 documento.add(new Paragraph("Correo: "+rs.getString(4)));
-                 documento.add(new Paragraph("Teléfono: "+rs.getInt(5)));
+            while (rs.next()) {
+                documento.add(new Paragraph("Código: " + rs.getInt(1)));
+                documento.add(new Paragraph("Nombre: " + rs.getString(2)));
+                documento.add(new Paragraph("Dirección: " + rs.getString(3)));
+                documento.add(new Paragraph("Correo: " + rs.getString(4)));
+                documento.add(new Paragraph("Teléfono: " + rs.getInt(5)));
                 documento.add(new Paragraph("\n\n"));
             }
         } catch (Exception e) {
         }
-               
-         
+
         documento.close();
         JOptionPane.showMessageDialog(null, "El archivo se creo correctamente");
         try {
-            File sucursales_doc = new File("Sucursales.pdf");
+            File sucursales_doc = new File("Reporte-Sucursales.pdf");
             Desktop.getDesktop().open(sucursales_doc);
         } catch (Exception e) {
         }
