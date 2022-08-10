@@ -18,7 +18,7 @@ public class vendedor extends JFrame {
         setVisible(true);
 
         Nueva_venta nv = new Nueva_venta();
-        nv.filtro_panel();
+        nv.ejecutar();
 
         ventas_realizadas vr = new ventas_realizadas();
 
