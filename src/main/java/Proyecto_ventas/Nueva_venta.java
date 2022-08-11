@@ -20,6 +20,11 @@ import javax.swing.JTextField;
 
 public class Nueva_venta {
 
+    //global
+    int x = 0;
+    double cantidad =0;
+    JLabel total = new JLabel();
+
     JPanel general = new JPanel();
     JPanel filtro = new JPanel();
     JPanel ventas = new JPanel();
@@ -32,9 +37,13 @@ public class Nueva_venta {
 
     JTextField text6 = new JTextField();
     JTextField text7 = new JTextField();
-    
+
     String nombres[] = {"No hay resultados"};
     JComboBox resultado;
+    Object productos[][] = new Object[10][5];
+
+    JTable tabla;
+    JScrollPane sp;
 
     public void filtro_panel() {
         general.setBounds(50, 175, 900, 800);
@@ -111,12 +120,11 @@ public class Nueva_venta {
         };
 
         b1.addActionListener(verificar);
-        
+
         JButton b2 = new JButton("Nuevo Cliente");
         b2.setBounds(650, 150, 130, 30);
         filtro.add(b2);
-        
-        
+
         ActionListener funcion_crear = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,7 +133,7 @@ public class Nueva_venta {
         };
 
         b2.addActionListener(funcion_crear);
-        
+
         filtro.add(l1);
         filtro.add(l2);
         filtro.add(l3);
@@ -140,17 +148,15 @@ public class Nueva_venta {
         l5.setBounds(140, 150, 75, 35);
         filtro.add(l5);
 
-        
-
     }
-    
-    public void vender(){
-    
+
+    public void vender() {
+
         ventas.setBackground(Color.WHITE);
         ventas.setBounds(50, 300, 800, 400);
         ventas.setLayout(null);
         general.add(ventas);
-    
+
         //Etiquetas
         JLabel label4 = new JLabel("Fecha: ");
         label4.setLocation(460, 10);
@@ -195,7 +201,19 @@ public class Nueva_venta {
         ActionListener agregar_accion = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                ProductosDAO pd = new ProductosDAO();
+                Object temporal[] = pd.filtro(Integer.parseInt(text6.getText()));
+
+                productos[x][0] = temporal[0];
+                productos[x][1] = temporal[1];
+                productos[x][2] = Integer.parseInt(text7.getText());
+                productos[x][3] = temporal[2];
+                productos[x][4] = Integer.parseInt(text7.getText()) * Double.parseDouble(temporal[2].toString());
+                x++;
+                sp.setVisible(false);
+                total.setVisible(false);
+                total_etiqueta(Integer.parseInt(text7.getText()) * Double.parseDouble(temporal[2].toString()));
+                tabla();
             }
         };
 
@@ -207,21 +225,36 @@ public class Nueva_venta {
         ventas.add(text6);
         ventas.add(label5);
         ventas.add(text7);
-    
-    
+        
+        JButton vender = new JButton("Vender");
+        vender.setBackground(Color.GREEN);
+        vender.setBounds(50, 320, 300, 30);
+        ventas.add(vender);
+        
+        JLabel l1 = new JLabel("Total");
+        l1.setBounds(600, 300, 80, 80);
+        ventas.add(l1);
+        
+        total_etiqueta(0);
+
     }
     
-//        private void tabla() {
-//
-//        String columnas[] = {"Código", "Nombre", "Dirección", "Correo", "Teléfono"};
-//        SucursalesDAO sd = new SucursalesDAO();
-//        Object filas[][] = sd.listar_tabla();
-//        tabla = new JTable(filas, columnas);
-//        sp = new JScrollPane(tabla);
-//        sp.setBounds(10, 20, 430, 600);
-//        sucursales.add(sp);
-//
-//    }
+    public void total_etiqueta(double suma){
+        cantidad+= suma;
+        total.setBounds(650, 330, 123, 30);        
+        total.setText(cantidad+"");
+        total.setVisible(true);
+        ventas.add(total);    
+       }
+
+    private void tabla() {
+
+        String columnas[] = {"Código", "Nombre", "Cantidad", "Precio", "Subtotal"};
+        tabla = new JTable(productos, columnas);
+        sp = new JScrollPane(tabla);
+        sp.setBounds(50, 100, 700, 200);
+        ventas.add(sp);
+    }
 
     public void box() {
 
@@ -229,7 +262,7 @@ public class Nueva_venta {
         resultado.setBounds(225, 150, 280, 40);
         filtro.add(resultado);
     }
-    
+
     private void crear() {
 
         JFrame frame_sucursal = new JFrame();
@@ -291,19 +324,19 @@ public class Nueva_venta {
             public void actionPerformed(ActionEvent e) {
                 ClientesDAO cd = new ClientesDAO();
                 cd.crear(Integer.parseInt(t1.getText()), t2.getText(), Integer.parseInt(t3.getText()), t4.getText(), t5.getText());
-                frame_sucursal.setVisible(false);
+                frame_sucursal.dispose();
             }
         };
 
         b1.addActionListener(guardar);
 
     }
-    
 
     public void ejecutar() {
         filtro_panel();
         vender();
         box();
+        tabla();
 
     }
 

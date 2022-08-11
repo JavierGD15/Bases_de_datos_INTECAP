@@ -57,9 +57,12 @@ public class login extends JFrame{
                     case 1:
                         administrador ad = new administrador();
                         ad.ejecutar();
+                        dispose();
                         break;
                     case 0:
-                        JOptionPane.showMessageDialog(null, "es vendedor");
+                        vendedor vn = new vendedor();
+                        vn.inicio();
+                        dispose();
                         break;
                     default:
                         JOptionPane.showMessageDialog(null, "Datos incorrectos");
