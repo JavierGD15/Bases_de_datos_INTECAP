@@ -5,6 +5,8 @@
 package Proyecto_ventas;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -13,5 +15,16 @@ import javax.swing.JPanel;
 public class ventas_realizadas {
     
     JPanel ventas_general = new JPanel();
+    JTable tabla;
+    JScrollPane sp;
     
+    private void tabla(){
+        String columnas []= {"No_Factura","NIT","Nombre","Fecha","Total"};
+        VentasDAO vd = new VentasDAO();
+        
+        Object filas [][] = vd.listar_tabla();
+        
+        tabla = new JTable(filas,columnas);
+        ventas_general.add(tabla);
+    }
 }

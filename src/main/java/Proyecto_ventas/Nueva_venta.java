@@ -22,7 +22,7 @@ public class Nueva_venta {
 
     //global
     int x = 0;
-    double cantidad =0;
+    double cantidad = 0;
     JLabel total = new JLabel();
 
     JPanel general = new JPanel();
@@ -172,7 +172,9 @@ public class Nueva_venta {
         JLabel label1 = new JLabel("No. ");
         label1.setBounds(650, 10, 80, 15);
         label1.setFont(new Font("Serig", Font.PLAIN, 15));
-        JLabel no_venta = new JLabel("sin funcionar");
+        VentasDAO vd = new VentasDAO();
+        int ventas_realizadas = vd.filtro();
+        JLabel no_venta = new JLabel(ventas_realizadas + "");
         no_venta.setBounds(700, 10, 100, 15);
         no_venta.setFont(new Font("Serig", Font.PLAIN, 15));
 
@@ -213,6 +215,7 @@ public class Nueva_venta {
                 sp.setVisible(false);
                 total.setVisible(false);
                 total_etiqueta(Integer.parseInt(text7.getText()) * Double.parseDouble(temporal[2].toString()));
+
                 tabla();
             }
         };
@@ -225,27 +228,39 @@ public class Nueva_venta {
         ventas.add(text6);
         ventas.add(label5);
         ventas.add(text7);
-        
+
         JButton vender = new JButton("Vender");
         vender.setBackground(Color.GREEN);
         vender.setBounds(50, 320, 300, 30);
+
+        ActionListener vender_accion = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enviar_venta();
+            }
+        };
+
+        //Acción del evento
+        vender.addActionListener(vender_accion);
+
         ventas.add(vender);
-        
+
         JLabel l1 = new JLabel("Total");
         l1.setBounds(600, 300, 80, 80);
         ventas.add(l1);
-        
+
         total_etiqueta(0);
 
     }
-    
-    public void total_etiqueta(double suma){
-        cantidad+= suma;
-        total.setBounds(650, 330, 123, 30);        
-        total.setText(cantidad+"");
+
+    public void total_etiqueta(double suma) {
+        cantidad += suma;
+
+        total.setBounds(650, 330, 123, 30);
+        total.setText(cantidad + "");
         total.setVisible(true);
-        ventas.add(total);    
-       }
+        ventas.add(total);
+    }
 
     private void tabla() {
 
@@ -259,6 +274,7 @@ public class Nueva_venta {
     public void box() {
 
         resultado = new JComboBox(nombres);
+
         resultado.setBounds(225, 150, 280, 40);
         filtro.add(resultado);
     }
@@ -329,6 +345,43 @@ public class Nueva_venta {
         };
 
         b1.addActionListener(guardar);
+
+    }
+
+    private void enviar_venta() {
+
+        String nombre = resultado.getSelectedItem() + "";
+
+        ClientesDAO cl = new ClientesDAO();
+        int nit = cl.filtro_nit(nombre);
+
+        VentasDAO vd = new VentasDAO();
+        int factura = vd.filtro();
+
+        //fecha
+        Calendar calendar = new GregorianCalendar();
+        String fecha = ("" + calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH));
+
+        vd.insertar(factura, nit, nombre, fecha, cantidad);
+        vaciar();
+
+    }
+
+    private void vaciar() {
+
+         JOptionPane.showMessageDialog(null, "Venta realizada");
+        //cajas filtro
+        nombre.setText("");
+        nit.setText("");
+        correo.setText("");
+        genero.setText("");
+
+        text6.setText("");
+        text7.setText("");
+
+        productos = new Object[10][5];
+        sp.setVisible(false);
+        tabla();
 
     }
 

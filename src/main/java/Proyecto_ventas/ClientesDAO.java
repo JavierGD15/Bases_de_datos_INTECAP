@@ -49,6 +49,25 @@ public class ClientesDAO {
         return nombres;
     }
     
+    public int filtro_nit(String nombre) {
+
+        String sql = "select * from clientes where nombre = '" + nombre + "'" +" ;";
+        try {
+            con = conectar.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                return rs.getInt(3);
+            }
+
+        } catch (Exception e) {
+
+        }
+
+        return 0;
+    }
+    
     
     public void crear(int codigo, String nombre, int nit, String correo, String genero){
         String sql = "insert into clientes(Codigo,Nombre,NIT,Correo,Genero) values (?,?,?,?,?)";
@@ -65,6 +84,8 @@ public class ClientesDAO {
             System.out.println(e);
         }
     }
+    
+   
 
    
 }
