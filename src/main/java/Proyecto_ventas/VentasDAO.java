@@ -49,6 +49,43 @@ public class VentasDAO {
 
     }
 
+    public Object[][] filtro_ventas(int factura, int nit, String nombre, String fecha) {
+
+        String sql = "select * from compras where No_Factura = " +"'"+ factura + "'" + " or NIT = " + "'" + nit + "'" + " or Nombre = '" +  nombre + "'" + " or Fecha = " + "'" + fecha + "'" + ";";
+        try {
+            con = conectar.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            int x = 0;
+            while (rs.next()) {
+                x++;
+            }
+            con = conectar.Conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            datos = new Object[x][5];
+            x = 0;
+            while (rs.next()) {
+                datos[x][0] = rs.getInt(1);
+                datos[x][1] = rs.getInt(2);
+                datos[x][2] = rs.getString(3);
+                datos[x][3] = rs.getString(4);
+                datos[x][4] = rs.getInt(5);
+                x++;
+                
+            }
+            if (datos[0][0] == null) {
+                return null;
+            }else{
+            return datos;}
+
+        } catch (Exception e) {
+
+        }
+
+        return null;
+    }
+
     public Object[][] listar_tabla() {
         String instruccion = "select * from compras";
         try {
@@ -80,5 +117,7 @@ public class VentasDAO {
         return datos;
 
     }
+    
+   
 
 }

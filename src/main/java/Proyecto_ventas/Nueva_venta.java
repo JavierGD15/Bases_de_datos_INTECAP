@@ -46,6 +46,10 @@ public class Nueva_venta {
     JScrollPane sp;
 
     public void filtro_panel() {
+        
+        
+        
+        
         general.setBounds(50, 175, 900, 800);
         general.setLayout(null);
         filtro.setBackground(Color.WHITE);
